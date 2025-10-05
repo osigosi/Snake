@@ -31,4 +31,7 @@ void snake_grow(void);
 int snake_dir(void);
 
 void snake_draw(void); 
+
+extern Snake snake; // så vi har tillgång till ormen i alla filer
+
 #endif
