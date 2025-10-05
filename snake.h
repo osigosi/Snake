@@ -24,9 +24,9 @@ Body snake_next_head(void);
 
 void snake_move(void);
 
-int snake_hits_self(void); 
+void snake_hits_self(void); 
 
-int snake_hits_wall(void); 
+void snake_hits_wall(void); 
 
 void snake_grow(void);
 

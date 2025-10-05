@@ -26,24 +26,10 @@ int apple_eaten(void) {
     return 0;
 }
 
-void grid_collision(){
-    if(snake.parts[0].x > WIDTH - GRID_SIZE || snake.parts[0].x < GRID_SIZE ||
-         snake.parts[0].y > HEIGHT - GRID_SIZE || snake.parts[0].y < GRID_SIZE){
-        gameIsover = 1;
-    }
-}
-void snake_collision(){
-    for(int i = 2; i < snake.length; i++){
-        if(snake.parts[0].x == snake.parts[i].x && snake.parts[0].y == snake.parts[i].y){
-            gameIsover = 1;
-
-        } 
-    }
-} 
 
 void game_over(){
-    grid_collision();
-    snake_collision();
+    snake_hits_self();
+    snake_hits_wall();
     if(gameIsover != 0 ){
          //skriva ut game over and scor
     }

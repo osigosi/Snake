@@ -15,9 +15,6 @@ void draw_apple();
 // Kollar om vi har ätit ett äpple genom att jämföra äpplets position med huvudet
 int apple_eaten();
 
-// dessa två funktioner kollar om vi krockar in i ormen eller grid
-void snake_collision();
-void grid_collision();
 
 void game_over();
 
