@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define HEIGHT 480
+#define HEIGHT 240
 #define WIDTH 320
 #define GRID_SIZE 20
 #define COLS (HEIGHT / GRID_SIZE)

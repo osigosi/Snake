@@ -48,6 +48,9 @@ void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
     snake.parts[0] = snake_next_head();
     }
 
+void draw_snake();
+
+
 
 
     
