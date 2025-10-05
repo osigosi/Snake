@@ -20,6 +20,8 @@ typedef struct Snake {
 
 void snake_init(void); 
 
+Body snake_next_head(void);
+
 void snake_move(void);
 
 int snake_hits_self(void); 

@@ -1,6 +1,6 @@
 #include "snake.h"
 
-static Snake snake;
+Snake snake;
 
 void snake_init(void){
     snake.parts[0] = (Body){2*GRID_SIZE, 2*GRID_SIZE, 1};
@@ -8,7 +8,7 @@ void snake_init(void){
     snake.length = 2;
 } 
 
-int snake_current_dir(void){
+int snake_dir(void){
      if(snake.parts[0].x <  snake.parts[1].x) // if snake is in west direction
         return DIR_W;
     if(snake.parts[0].x > snake.parts[1].x) // if snake moves i east
@@ -18,8 +18,8 @@ int snake_current_dir(void){
     if(snake.parts[0].y > snake.parts[1].y) // if snake moves in south
         return DIR_S;
 }
-void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
-   int direction = snake_current_dir();
+Body snake_next_head(void){
+    int direction = snake_current_dir();
    Body head; 
     switch (direction)
     {
@@ -38,10 +38,19 @@ void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
     default:
         break;
     }
+    return head;
+
+}
+void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
     for (int i = snake.length - 1; i > 0; i--) {
         snake.parts[i] = snake.parts[i - 1];
     }
-    snake.parts[0] = head;
+    snake.parts[0] = snake_next_head();
+    }
+
+
+
+    
     
     /*if(direction == 0x1 )
         body head = {snake.parts[0].x + 20,snake.parts[0].y , snake.parts[0].color};
@@ -56,4 +65,4 @@ void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
         snake.parts[i] = snake.parts[i - 1];
     }
     snake.parts[0] = head;*/
-}
+
