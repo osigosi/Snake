@@ -44,7 +44,7 @@ void labinit(void)
 {
 
     *interrupt = 85; //tilllåter intrupt från 01010101 dvs sw6 = N, sw4 = S, sw2 = W, sw0 = E
-    
+    // vi vill ha 10FPS 
     *periodL = (2999999) &0xFFFF;
     *periodH = (2999999 >> 16); // 30MHz 0.1 100ms
 
@@ -53,4 +53,16 @@ void labinit(void)
     
     //cont- behöver ej starta manuellt , ito- så avbrott när noll och får signal om det, start- startar timer
     enable_interrupt(); // från boot.S
+}
+
+int main (){
+    game_init();
+    labinit();
+    while(1){
+        if(gameIsOver != 0){
+            game_over();
+            break;
+        }
+    }
+    return 0;
 }

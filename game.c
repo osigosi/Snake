@@ -26,7 +26,12 @@ int apple_eaten(void) {
     return 0;
 }
 
-
+void game_init(void) {
+    snake_init();
+    draw_apple();
+    score = 0;
+    gameIsOver = 0;
+}
 void game_over(){
     snake_hits_self();
     snake_hits_wall();

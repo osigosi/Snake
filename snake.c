@@ -13,6 +13,7 @@ void snake_init(void){
     snake.parts[1] = (Body){1*GRID_SIZE, 1*GRID_SIZE, 1};
     snake.length = 2; 
     current_dir = DIR_E;
+    draw_snake();
 } 
 
 int snake_dir(void){
