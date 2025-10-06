@@ -7,7 +7,7 @@
 #define DIR_S 0x10
 #define DIR_N 0x40
 
-#define SNAKE_BASE = (Body*)0x00000020; 
+#define SNAKE_BASE = 0x00000020; 
 
 extern volatile int current_dir;
 

@@ -1,17 +1,17 @@
 #include "snake.h"
 #include "game.h"
 
+#define SNAKE_BASE 0x00000020 // minnes adress där ormen börjar 
+
+
 // Vi deklarerar ormen här
 Snake snake;
 
-volatile Body* snake_parts = SNAKE_BASE;
-volatile int current_dir = DIR_E;
-
 void snake_init(void){
-    snake.parts = sja
+    snake.parts = (Body*)SNAKE_BASE; // allokera minne för ormen
     snake.parts[0] = (Body){2*GRID_SIZE, 2*GRID_SIZE, 1};
     snake.parts[1] = (Body){1*GRID_SIZE, 1*GRID_SIZE, 1};
-    snake.length = 2;
+    snake.length = 2; 
     current_dir = DIR_E;
 } 
 

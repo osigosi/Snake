@@ -25,7 +25,7 @@ void handle_interrupt(unsigned cause)
       timeoutcount++; // ökar för varje timout som händer 
       if (timeoutcount >= 10) { // loopen är basically att när 10 hänt då en sekund och då öka 7 segmentet
           timeoutcount = 0;
-          *interrupt = 0
+          *interrupt = 0;
           int sw = *switches & 0x55;
           snake_set_dir(sw); // sätt riktning beroende på switcharna
 
