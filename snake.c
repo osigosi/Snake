@@ -4,11 +4,11 @@
 // Vi deklarerar ormen här
 Snake snake;
 
-snake.parts = (Body *) SNAKE_BASE; // allokera minne för ormen på adress 0x00000020 
-
+volatile Body* snake_parts = SNAKE_BASE;
 volatile int current_dir = DIR_E;
 
 void snake_init(void){
+    snake.parts = sja
     snake.parts[0] = (Body){2*GRID_SIZE, 2*GRID_SIZE, 1};
     snake.parts[1] = (Body){1*GRID_SIZE, 1*GRID_SIZE, 1};
     snake.length = 2;
