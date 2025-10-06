@@ -1,12 +1,12 @@
 #include "game.h"
 #include "snake.h"
 
-Snake snake;
+
 
 Body apple;
 
 int score = 0;
-int gameIsover = 0;
+int gameIsOver = 0;
 
 void draw_apple(void) {
     // placera äpplet random på rutnätet (inte för utanför kanterna)
@@ -30,7 +30,7 @@ int apple_eaten(void) {
 void game_over(){
     snake_hits_self();
     snake_hits_wall();
-    if(gameIsover != 0 ){
+    if(gameIsOver != 0 ){
          //skriva ut game over and scor
     }
      return;

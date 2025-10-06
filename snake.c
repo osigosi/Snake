@@ -1,47 +1,58 @@
 #include "snake.h"
 #include "game.h"
 
+// Vi deklarerar ormen här
 Snake snake;
+
+snake.parts = (Body *) SNAKE_BASE; // allokera minne för ormen på adress 0x00000020 
+
+volatile int current_dir = DIR_E;
 
 void snake_init(void){
     snake.parts[0] = (Body){2*GRID_SIZE, 2*GRID_SIZE, 1};
     snake.parts[1] = (Body){1*GRID_SIZE, 1*GRID_SIZE, 1};
     snake.length = 2;
+    current_dir = DIR_E;
 } 
 
 int snake_dir(void){
-     if(snake.parts[0].x <  snake.parts[1].x) // if snake is in west direction
-        return DIR_W;
-    if(snake.parts[0].x > snake.parts[1].x) // if snake moves i east
-        return DIR_E;
-    if(snake.parts[0].y < snake.parts[1].y) // if snake moves in north
-        return DIR_N;
-    if(snake.parts[0].y > snake.parts[1].y) // if snake moves in south
-        return DIR_S;
+    return current_dir;
 }
+
 Body snake_next_head(void){
-    int direction = snake_current_dir();
-   Body head; 
-    switch (direction)
+    Body head = snake.parts[0];
+
+    switch (current_dir)
     {
     case DIR_E:
-        head = (Body){snake.parts[0].x + 1*GRID_SIZE ,snake.parts[0].y , snake.parts[0].color};
+        head.x += GRID_SIZE;
         break;
     case DIR_W:
-        head = (Body){snake.parts[0].x - 1*GRID_SIZE ,snake.parts[0].y, snake.parts[0].color};
+        head.x -= GRID_SIZE;
         break;
     case DIR_N:
-        head = (Body){snake.parts[0].x,snake.parts[0].y - 1*GRID_SIZE, snake.parts[0].color};
+        head.y -= GRID_SIZE;
         break;
     case DIR_S:
-        head = (Body){snake.parts[0].x,snake.parts[0].y + 1*GRID_SIZE, snake.parts[0].color};
+        head.y += GRID_SIZE;
         break;
     default:
         break;
     }
+
+    head.color = snake.parts[0].color;
     return head;
 
 }
+void snake_set_dir(int dir){
+    int both = dir | current_dir;
+    if (both == (DIR_E | DIR_W) || both == (DIR_N | DIR_S)){
+        return;
+      }
+
+    current_dir = dir;
+}
+// flyttar ormen i den riktning som är satt och kollar om vi ätit ett äpple
 void snake_move(void){ // west = 0x4, east = 0x1, north = 0x40 south = 0x10
     Body tail = snake.parts[snake.length - 1]; // spara svansens position för att radera den senare
     tail.color = 0; // gör svansen osynlig    
@@ -72,6 +83,7 @@ void snake_hits_wall(void){
 void draw_snake(){
     for(int i = 0; i < snake.length; i++){
         draw_block(snake.parts[i]);
+    }
     }
 
 

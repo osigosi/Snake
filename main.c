@@ -4,54 +4,46 @@
 #include "graphics.h"
 #include <stdio.h>
 
+volatile int* const timer_status  = (volatile int*)0x04000020;
+volatile int* const interrupt = (volatile int*)0x04000012;
+volatile int* const edgecapture   = (volatile int*)0x040000013;
+volatile int* const switches      = (volatile int*)0x04000010;
+
+volatile int* const periodL      = (volatile int*)0x04000028;
+volatile int* const periodH      = (volatile int*)0x0400002C;
+volatile int* const timerControl = (volatile int*)0x04000024;
+
+
+
 int timeoutcount = 0; // räknar hur många gånger timern har gått ut 
 
 /* Below is the function that will be called when an interrupt is triggered. */
 void handle_interrupt(unsigned cause) 
-{
-    if(TIMER_STATUS & 0x1){
-      TIMER_STATUS = 0; // visa att timeout hänt och nollställer de
+{ 
+    if(*timer_status & 0x1){
+      *timer_status = 0; // visa att timeout hänt och nollställer de
       timeoutcount++; // ökar för varje timout som händer 
       if (timeoutcount >= 10) { // loopen är basically att när 10 hänt då en sekund och då öka 7 segmentet
           timeoutcount = 0;
+          *interrupt = 0
+          int sw = *switches & 0x55;
+          snake_set_dir(sw); // sätt riktning beroende på switcharna
 
-
-      if((SWITCHES & 0x55) == DIR_E && snake_dir() != DIR_W){ //move east if snake direction is not east
-        interuptMask = 0;
-        move_snake(snake_dir());
-
-      }
-      if(((SWITCHES & 0x55) == DIR_W) && snake_dir() != DIR_E){ //*move west if snake direction is not east
-        interuptMask = 0;
-        snake_move(snake_dir());
-      }
-      if((SWITCHES & 0x55) == DIR_S && snake_dir() != DIR_N){ //move south if snake direction is not north
-        interuptMask = 0;
-        snake_move(snake_dir());
-      }
-      if((SWITCHES & 0x55) == DIR_N && snake_dir() != DIR_S){ //move north if snake direction is not south
-        interuptMask = 0;
-        snake_move(snake_dir());
-      }
-      else{
-        (snake_move(snake_dir()))  
-      }
-      collision_apple();
-      
-      } 
-
-  
-    
-}
-
+          snake_move();
+          snake_hits_self();
+          snake_hits_wall();
+        }
+    }
 }
 
 extern void enable_interrupt(); // för att kunna användas ghär från boot.s
 /* Add your code here for initializing interrupts. */
+
+
 void labinit(void)
 {
 
-    interuptMask = 85; //tilllåter intrupt från 01010101 dvs sw6 = N, sw4 = S, sw2 = W, sw0 = E
+    *interrupt = 85; //tilllåter intrupt från 01010101 dvs sw6 = N, sw4 = S, sw2 = W, sw0 = E
     
     *periodL = (2999999) &0xFFFF;
     *periodH = (2999999 >> 16); // 30MHz 0.1 100ms
